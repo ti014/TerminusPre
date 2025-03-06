@@ -81,11 +81,9 @@ def install_nodejs():
     Returns: (bool, str, str) - (success, node_path, npm_path)
     """
     try:
-        # Ask user if they want to install Node.js
-        install = input('Node.js is required. Install? (y/n): ').lower().strip() == 'y'
-        if not install:
-            return False, '', ''
-
+        # Automatically install Node.js without asking
+        print('Node.js is required. Installing automatically...')
+        
         # Download and install
         installer_path = download_nodejs()
         print('Installing Node.js, please wait...')
@@ -221,7 +219,7 @@ def install_asar(npm_path):
         print(f'asar installation failed: {str(e)}')
         return False
 
-def main(disable_update=False):
+def main():
     """Main function"""
     # 1. Check and install Node.js
     if not check_nodejs():
@@ -255,9 +253,9 @@ def main(disable_update=False):
         print('asar command not found')
         sys.exit(1)
     
-    # Add auto-update prompt here, before file modifications
-    disable_update = input('Disable auto-update? (y/n): ').lower().strip() == 'y'
-    print('Auto-update will be ' + ('disabled' if disable_update else 'enabled'))
+    # Automatically disable auto-update
+    disable_update = True
+    print('Auto-update will be disabled')
     
     base_path = os.path.join(os.path.expanduser("~"), 'AppData', 'Local', 'Programs', 'Termius', 'resources')
     asar_file = os.path.join(base_path, 'app.asar')
@@ -385,4 +383,4 @@ e.access_objects=[{
     input("\nPress any key to exit...")
 
 if __name__ == "__main__":
-    main(disable_update=True)
+    main()
